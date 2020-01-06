@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang ="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Personal Poker</title>
+	<link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
+	<link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Calistoga|Fugaz+One|Kaushan+Script|Patua+One&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+	
+
+	<div class = "container">
+		
+		<sidebar id="sidebar">
+			<header class="header">
+				<div class="title">
+					<!-- <div class="icon">
+						<div class="row">
+							&#9829 &nbsp &#9830
+						</div>
+						<div class="row">
+							&#9827 &nbsp &#9824
+						</div>
+					</div> -->
+					<h1>
+						Swap Poker
+					</h1>
+				</div>
+			</header>
+			<p id="btn_instructions">
+				instructions
+			</p>
+			<p id="btn_winningCombos">
+				winning combos
+			</p>
+			<p id="btn_about">
+				about
+			</p>
+
+			<div class="menu menu-instructions">
+				<button class="exit">X</button>
+				<h1>Instructions</h1>
+				<div class="content">
+					<p>
+						At the start, you are dealt five cards from a shuffled deck.  Your objective is to swap out the cards in your hand for cards from the deck to obtain the best poker hand.
+						<br/>
+						------
+						<br/>
+						To make a swap, first select cards by clicking them.  You may select as little as 1 and as many as 4 cards.  Then click the overturned deck in the middle of the page.  Your selected cards will be discarded and replaced by new ones from the deck.
+						<br/>
+						-----
+						<br/>
+						You must make 5 swaps per hand - no more and no less.  After 5 swaps, your hand will be submitted and you will be rewarded points according to your poker hand.  See 'Winning Combinations' for information on poker hands with their respective points.  If you have none of the winning combinaitons in your hand, you will receive -100 points!
+						<br/>
+						-----
+						<br/>
+						Keep playing hands until the cards in the deck run out or there are not enough to deal out another hand.  Pay attention to the cards in deck in the control panel at the top of the page.
+						At this point, your final score will be tallied!  
+						<br/>
+						-----
+						<br/>
+						At any time you can 'peek' at what has been discarded by clicing the peek button in the control panel.  This will give you a hint of what is left in the deck.
+
+					</p>
+				</div>
+				
+			</div>
+
+			<div class="menu menu-winningCombos">
+				<button class="exit">X</button>
+				<h1>Wining Combinations</h1>
+				<div class="content">
+					<div class="combos">
+						<div class="comboContainer">
+							<h2>Royal Flush</h2>
+							<p>800 points</p>
+							<div class="combo">
+								<div class="combo-card" style="background-image: url('img/card_faces/clubs_1.svg')">
+								</div>
+								<div class="combo-card" style="background-image: url('img/card_faces/clubs_13.svg')">
+								</div>
+								<div class="combo-card" style="background-image: url('img/card_faces/clubs_12.svg')">
+								</div>
+								<div class="combo-card" style="background-image: url('img/card_faces/clubs_11.svg')">
+								</div>
+								<div class="combo-card" style="background-image: url('img/card_faces/clubs_10.svg')">
+								</div>
+							</div>
+
+						</div>
+						
+
+
+						<div class="comboContainer">
+							<h2>Straight Flush</h2>
+						<p>600 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_3.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_4.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_5.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_6.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_7.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+
+
+						<div class="comboContainer">
+							<h2>Four of a Kind</h2>
+						<p>400 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_11.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_11.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_11.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_11.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_3.svg')">
+							</div>
+						</div>
+							
+						</div>
+
+						<div class="comboContainer">
+							<h2>Full House</h2>
+						<p>350 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_9.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_9.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_5.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_5.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_5.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+						<div class="comboContainer">
+							<h2>Flush</h2>
+						<p>300 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_13.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_4.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_1.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_9.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_12.svg')">
+							</div>
+						</div>
+							
+						</div>
+
+						<div class="comboContainer">
+							<h2>Straight</h2>
+						<p>250 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_7.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_8.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_9.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_10.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_11.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+
+
+						<div class="comboContainer">
+							<h2>Three of a Kind</h2>
+						<p>250 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_1.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_1.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_1.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_11.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_10.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+
+
+						<div class="comboContainer">
+							<h2>Two Pair</h2>
+						<p>100 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_2.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_2.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_12.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_12.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/hearts_7.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+
+
+						<div class="comboContainer">
+							<h2>Pair</h2>
+						<p>50 points</p>
+						<div class="combo">
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_6.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_6.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/clubs_1.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/diamonds_4.svg')">
+							</div>
+							<div class="combo-card" style="background-image: url('img/card_faces/spades_10.svg')">
+							</div>
+						</div>
+							
+						</div>
+						
+					</div>
+				</div>
+
+			</div>
+
+			<div class="menu menu-about">
+				<button class="exit">X</button>
+				<h1>About</h1>
+				<div class="content">
+					<p>Swap & win was conceived and created by Cassie Wight 2020.</p>
+					<p>It is written in native HTML, CSS and Javascript.
+						Fonts are courtesy of Google Fonts
+					</p>
+					
+					<p>All credit for the card face images to:
+						<br/>
+						Chris Aguilar - conjurenation@gmail.com
+						<br/>
+						<a href=https://totalnonsense.com/open-source-vector-playing-cards>link here</a>
+					</p>
+				</div>
+				
+			</div>
+		</sidebar>
+	
+
+		<div class="gameContainer">
+			<div class="gameContainerOverlay"></div>
+
+			<div class="resultPopup"></div>
+
+			<div class="gameOverPopup"></div>
+			
+			<div class="discardedPeek">
+				<div class="discardedCardsContainer"></div>
+				<div id="btnDiscardedPeek">OK</div>
+			</div>
+			
+			<div class="controls">
+				<div id="switches">
+					<p>SWAPS</p>
+					<p id="result_switches">5</p>
+				</div>
+				<button class="button" id="btnPeek">Peek</button>
+				<div id="points">
+					<p>POINTS</p>
+					<p id="result_points">0</p>
+				</div>
+				<div id="cardsInDeckContainer">
+					<p>DECK</p>
+					<p id="result_cardsInDeck">52</p>
+				</div>
+					
+			</div>
+
+			<div class = "deckContainer">
+				<div class = "card deckCover"></div>
+			</div>
+			
+			
+			<div class="handContainer"></div>
+			<footer>
+				<p>&copy Cassie Wight 2020</p>
+			</footer>
+		</div>
+
+		
+	</div>
+
+	
+	
+
+
+	<!--<script src="arrays.js"></script>-->
+	<!--<script src="script.js"></script>-->
+	<script src="js/cards2.js"></script>
+	<script src="js/ui.js"></script>
+
+</body>
+
+</html>
