@@ -1,11 +1,5 @@
 //Single Deck, Single Hand game
 
-//todo: 
-//Refresh the discarded peek after the game.
-//write the about
-//Format the menus
-//Format the popups
-
 //DOM containers
 var container = document.querySelector(".container");
 var gameContainer = document.querySelector(".gameContainer");
@@ -25,7 +19,8 @@ var cardsContainer = document.querySelector(".discardedCardsContainer");
 var DOMDeck = document.querySelector("#result_cardsInDeck");
 var DOMSwitches = document.querySelector("#result_switches");
 var DOMPoints = document.querySelector("#result_points");
-var DOMpeek = document.querySelector("#btnPeek");
+var DOMPeek = document.querySelector("#btnPeek");
+var DOMSubmit = document.querySelector("#btnSubmit");
 
 //HTML/CSS classes
 var classCard = 'card';
@@ -56,17 +51,24 @@ Outcomes = {
     'nothing' : {name: 'Nothing', points: -100}
 }
 
-
 var myDeck = new Array();
 var myHand = new Hand();
 var discarded = new Array();
 
 //event listeners are placed on the whole container.  
-//If the target is a card, selectCard is triggered
-//if the target is the deck, switch is made
+//Depending on the target the correct function is called
 container.addEventListener('click', selectCard);
 container.addEventListener('click', switchCards);
-container.addEventListener('click', peek);
+DOMPeek.addEventListener('click', peek);
+DOMSubmit.addEventListener('click', submit);
+
+//popup ok buttons event listeners
+
+//peek popup ok button
+document.querySelector("#btnDiscardedPeek").addEventListener("click", function(){
+    discardedPeek.style.display="none";
+    containerOverlay.style.display="none";
+});
 
 //starting score
 var score = 0;
@@ -155,12 +157,12 @@ function DOMCreateCard(suit, rank){
     //create div
     var div = document.createElement("div");
     div.classList.add(classCard);
+    div.classList.add(classPlayingCard);
     div.style.backgroundImage="url('img/card_faces/" + suit + "_" + rank + ".svg')";
     
     return div;
 
 }
-
 
 //Function to fill the hand from a deck
 function fillHand(deck, hand){
@@ -196,7 +198,6 @@ function shuffle(cards){
 }
 
 //#endregion
-
 
 //#region SWITCH CARDS FUNCTIONALITY
 
@@ -269,20 +270,22 @@ function switchCards(e){
                         myHand.hand.findIndex(
                             e => e.card == f),1, myDeck.pop()));
             
-
             
-            // //put the cards back on the bottom of the deck
-            // myHand.selected.forEach(f => myDeck.unshift(
-            //         new BindedCard(
-            //             DOMCreateCard(f.suit, f.rank),
-            //                 new Card(f.suit, f.rank), 
-            //             )));
+            //add playing card class
+            
+            //Recreate card objects and put them back on the bottom of the deck
+            myHand.selected.forEach(f => myDeck.unshift(
+                    new BindedCard(
+                        DOMCreateCard(f.suit, f.rank),
+                            new Card(f.suit, f.rank), 
+                        )));
 
-            myHand.selected.forEach(f => discarded.unshift(
-                        new BindedCard(
-                            DOMCreateCard(f.suit, f.rank),
-                                new Card(f.suit, f.rank), 
-                            )));
+            // //push cards into dicsarded array
+            // myHand.selected.forEach(f => discarded.unshift(
+            //             new BindedCard(
+            //                 DOMCreateCard(f.suit, f.rank),
+            //                     new Card(f.suit, f.rank), 
+            //                 )));
             
             //refresh the hand
             refreshHand();
@@ -307,25 +310,35 @@ function switchCards(e){
     }
 }
 
-
-
 //#endregion
 
 
-function sortByRank(){
+function peek(e){
+    if(e.target.id == "btnPeek"){
 
-    for(var i = 0; i < myHand.hand.length-1; i++){
-        for(var j = 0; j < myHand.hand.length -i -1; j++){
-            if(myHand.hand[j].card.rank > myHand.hand[j+1].card.rank){
-                var temp = myHand.hand[j];
-                myHand.hand[j] = myHand.hand[j+1];
-                myHand.hand[j+1] = temp;
-            }
+        //empty DOM
+        cardsContainer.innerHTML = '';
+
+        //display transparent overlay over screen
+        containerOverlay.style.display="block";
+        discardedPeek.style.display="flex";
+
+        for(var i = 0; i < discarded.length; i++){
+            cardsContainer.append(discarded[i].element);
         }
+
     }
 }
 
+//#region SUBMIT AND DETERMINE OUTCOME
+
 function submit(hand){
+
+    //push hand into discarded array.  Remove playing class card so the cards cannot be selected
+    for(var i = 0; i < myHand.hand.length; i++){
+        myHand.hand[i].element.classList.remove("playingCard");
+        discarded.push(myHand.hand[i]);
+    }
 
     var result = getResult(hand);
     points += Outcomes[result].points;
@@ -336,90 +349,6 @@ function submit(hand){
     DOMPoints.innerHTML = points;
 
 }
-
-function displayResultPopup(result){
-
-    //display transparent overlay over screen
-    containerOverlay.style.display="block";
-    //display popup
-    resultPopup.style.display="flex";
-
-    var outcome = Outcomes[result].name;
-    var points = Outcomes[result].points;
-    //create the content and OK button
-    resultPopup.innerHTML = (outcome + " - " + points + "<button id='btnResultPopupOK'>OK</button>");
-
-    document.querySelector('#btnResultPopupOK').addEventListener("click", function(){
-        resultPopup.style.display="none";
-        containerOverlay.style.display="none";
-        if(myDeck.length <= 5){
-            displayGameOver();
-        }
-        else {
-            refreshGame();
-        }
-    });
-
-}
-
-function displayGameOver(){
-
-    //display transparent overlay over screen
-    containerOverlay.style.display="block";
-
-    gameOverPopup.style.display="flex";
-
-    gameOverPopup.innerHTML = 'You got ' + points + " points <button id='btnGameOverPopupOK'>OK</button>";
-    
-    document.querySelector("#btnGameOverPopupOK").addEventListener("click", function(){
-        gameOverPopup.style.display="none";
-        containerOverlay.style.display="none";
-
-        //reset game
-        points = 0;
-        //remove DOM hand
-        handContainer.removeChild(handContainer.children[0]);
-        // //remove DOM discarded and add it back (only way to empty the div)
-        // discardedPeek.removeChild(discardedPeek.children[0]);
-        // var newCardsContainer = document.createElement("div");
-        // newCardsContainer.classList.add("discardedCardsContainer");
-        //cardsContainer = newCardsContainer;
-        // discardedPeek.prepend(newCardsContainer);
-        
-
-        myDeck = [];
-        myHand.hand = [];
-        myHand.selected = [];
-        discaded = [];
-        switches = 0;
-        initializeGame();
-
-    });
-
-}
-
-function peek(e){
-    if(e.target.id == "btnPeek"){
-        //display transparent overlay over screen
-        containerOverlay.style.display="block";
-        
-        discardedPeek.style.display="flex";
-
-        //remove the playingCard class so they cannot be pushed into the selected array
-        for(var i = 0; i < discarded.length; i++){
-            discarded[i].element.classList.remove("playingCard");
-            cardsContainer.append(discarded[i].element);
-        }
-
-        document.querySelector("#btnDiscardedPeek").addEventListener("click", function(){
-            discardedPeek.style.display="none";
-            containerOverlay.style.display="none";
-        });
-
-    }
-}
-
-
 
 function getResult(){
 
@@ -502,6 +431,19 @@ function getResult(){
 
 }
 
+function sortByRank(){
+
+    for(var i = 0; i < myHand.hand.length-1; i++){
+        for(var j = 0; j < myHand.hand.length -i -1; j++){
+            if(myHand.hand[j].card.rank > myHand.hand[j+1].card.rank){
+                var temp = myHand.hand[j];
+                myHand.hand[j] = myHand.hand[j+1];
+                myHand.hand[j+1] = temp;
+            }
+        }
+    }
+}
+
 //returns true if hand is a sequence of 5
 function isSequence(){
     //sort and remove aces
@@ -548,6 +490,87 @@ function isAllOneSuit(){
 
 }
 
+//#endregion
+
+
+//#region DISPLAY POPUPS
+
+function displayResultPopup(result){
+
+    //display transparent overlay over screen
+    containerOverlay.style.display="block";
+    //display popup
+    resultPopup.style.display="flex";
+
+    var outcome = Outcomes[result].name;
+    var points = Outcomes[result].points;
+    //create the content and OK button
+    resultPopup.innerHTML = ("<span class='font-primary'>" + outcome + "</span><span class='font-main'>" + points + " points </span><button id='btnResultPopupOK' class='btn-popup'>OK</button>");
+    
+    //result popup ok button
+    document.querySelector('#btnResultPopupOK').addEventListener("click", function(){
+        resultPopup.style.display="none";
+        containerOverlay.style.display="none";
+        if(myDeck.length <= 5){
+            displayGameOver();
+        }
+        else {
+            refreshGame();
+        }
+    });
+
+
+
+}
+
+function displayGameOver(){
+
+    //display transparent overlay over screen
+    containerOverlay.style.display="block";
+
+    gameOverPopup.style.display="flex";
+
+    gameOverPopup.innerHTML = '<p class="font-primary">Final Score: ' + points + " points</p> <button id='btnGameOverPopupOK' class='btn-popup'>Play Again</button>";
+
+    //game over popup ok button
+    document.querySelector("#btnGameOverPopupOK").addEventListener("click", function(){
+        gameOverPopup.style.display="none";
+        containerOverlay.style.display="none";
+        resetGame();
+
+    });
+
+}
+
+//#endregion
+
+
+//complete reset of game
+function resetGame(){
+
+    //remove DOM hand
+    handContainer.removeChild(handContainer.children[0]);
+    //reset points
+    points = 0;
+    //empty deck
+    myDeck = [];
+    //empty hand
+    myHand.hand = [];
+    //empty selected array
+    myHand.selected = [];
+    //empty discarded array
+    discarded = [];
+
+    //TODO: EMPTY DISCARDED DOM
+
+
+    //reset switches to 0
+    switches = 0;
+    //initialize game
+    initializeGame();
+}
+
+//refreshes the hand in the DOM
 function refreshHand(){
     //remove currend hand
     handContainer.removeChild(handContainer.children[0]);
@@ -563,28 +586,36 @@ function refreshHand(){
 function updateControls(){
     DOMDeck.innerHTML = myDeck.length;
     DOMPoints.innerHTML = points;
-    DOMSwitches.innerHTML = MAX_NUMBER_OF_SWITCHES;
-    
+    DOMSwitches.innerHTML = MAX_NUMBER_OF_SWITCHES; 
 }
 
 
 //MAIN METHOD
 
 function initializeGame(){
+
     fillDeck(myDeck);
+
     //add playingCard class to make the cards selectable (the class is removed when they are pushed into the dicarded deck) 
     for(var i = 0; i < myDeck.length; i++){
         myDeck[i].element.classList.add("playingCard");
     }
     shuffle(myDeck);
+    //fill player's hand from shuffled deck
     fillHand(myDeck, myHand.hand);
+    //display hand
     DOMDisplayHand(myHand.hand);
+    //set DOM controls
     updateControls();
 }
 
+//refreshGame is called 
 function refreshGame(){
+
     myHand.hand = [];
     fillHand(myDeck, myHand.hand);
+
+    //refresh DOM hand
     refreshHand();
 
     switches = 0;
